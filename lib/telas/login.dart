@@ -50,54 +50,60 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(
+                    bottom: 35,
+                    left: 30,
+                    right: 30,
+                  ),
                   child: TextField(
                     controller: _controllerEmail,
                     keyboardType: TextInputType.emailAddress,
-                    style: const TextStyle(fontSize: 20),
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
+                    style: const TextStyle(fontSize: 17),
+                    decoration: const InputDecoration(
                       hintText: "E-mail",
                       filled: true,
                       fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(18)),
-                    ),
-                  ),
-                ),
-                TextField(
-                  obscureText: true,
-                  controller: _controllerSenha,
-                  keyboardType: TextInputType.text,
-                  style: const TextStyle(fontSize: 20),
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
-                    hintText: "Senha",
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 16, bottom: 10),
+                  padding: const EdgeInsets.only(
+                    bottom: 20,
+                    left: 30,
+                    right: 30,
+                  ),
+                  child: TextField(
+                    obscureText: true,
+                    controller: _controllerSenha,
+                    keyboardType: TextInputType.text,
+                    style: const TextStyle(fontSize: 17),
+                    decoration: const InputDecoration(
+                      hintText: "Senha",
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 20,
+                    bottom: 10,
+                    left: 100,
+                    right: 100,
+                  ),
                   child: ElevatedButton(
                     onPressed: () {
                       _validarCampos();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 167, 92, 180),
-                      padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18),
-                      ),
+                      padding: const EdgeInsets.fromLTRB(28, 12, 28, 12),
                     ),
                     child: const Text(
                       "Logar",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 17,
                       ),
                     ),
                   ),
@@ -123,7 +129,10 @@ class _LoginState extends State<Login> {
                   child: Center(
                     child: Text(
                       _mensagemErro,
-                      style: const TextStyle(color: Colors.red, fontSize: 20),
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ),
