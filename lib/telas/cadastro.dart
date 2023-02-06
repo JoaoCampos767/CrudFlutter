@@ -9,133 +9,179 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> {
+  final TextEditingController _controllerNome = TextEditingController();
+  final TextEditingController _controllerSobreNome = TextEditingController();
+  final TextEditingController _controllerCPF = TextEditingController();
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerSenha = TextEditingController();
+
   final maskCpf = MaskTextInputFormatter(
       mask: "###.###.###-##", filter: {"#": RegExp(r'[0-9]')});
 
   @override
   Widget build(BuildContext context) {
+    final _formCadastro = GlobalKey<FormState>();
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Cadastro"),
-        backgroundColor: const Color.fromARGB(255, 167, 92, 180),
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
+        appBar: AppBar(
+          title: const Text("Cadastro"),
+          backgroundColor: const Color.fromARGB(255, 167, 92, 180),
         ),
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(bottom: 40),
+        body: Form(
+          key: _formCadastro,
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
             ),
-            const Padding(
-              padding: EdgeInsets.only(
-                bottom: 35,
-                left: 30,
-                right: 30,
-              ),
-              child: TextField(
-                style: TextStyle(fontSize: 17),
-                decoration: InputDecoration(
-                  hintText: "Nome",
-                  filled: true,
-                  fillColor: Colors.white,
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 35,
+                        left: 30,
+                        right: 30,
+                      ),
+                      child: TextFormField(
+                        controller: _controllerNome,
+                        keyboardType: TextInputType.text,
+                        style: const TextStyle(fontSize: 17),
+                        decoration: const InputDecoration(
+                          hintText: "Nome",
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Campo Nome é obrigatório!";
+                          }
+
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 35, left: 30, right: 30),
+                      child: TextFormField(
+                        controller: _controllerSobreNome,
+                        keyboardType: TextInputType.text,
+                        style: const TextStyle(fontSize: 17),
+                        decoration: const InputDecoration(
+                          hintText: "Sobrenome",
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Campo Nome é obrigatório!";
+                          }
+
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 35, left: 30, right: 30),
+                      child: TextFormField(
+                        controller: _controllerCPF,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [maskCpf],
+                        style: const TextStyle(fontSize: 17),
+                        decoration: const InputDecoration(
+                          hintText: "CPF",
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Campo CPF é obrigatório";
+                          }
+
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 35, left: 30, right: 30),
+                      child: TextFormField(
+                        controller: _controllerEmail,
+                        keyboardType: TextInputType.emailAddress,
+                        style: const TextStyle(fontSize: 17),
+                        decoration: const InputDecoration(
+                          hintText: "E-mail",
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Campo Email é obrigatório";
+                          }
+
+                          if (!value.contains("@")) {
+                            return "Email é necessário conter @";
+                          }
+
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 20, left: 30, right: 30),
+                      child: TextFormField(
+                        obscureText: true,
+                        controller: _controllerSenha,
+                        keyboardType: TextInputType.text,
+                        style: const TextStyle(fontSize: 17),
+                        decoration: const InputDecoration(
+                          hintText: "Senha",
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Campo Senha é obrigatório";
+                          }
+
+                          if (value.length <= 6) {
+                            return "Senha deve conter mais de 6 caracteres";
+                          }
+
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 16, bottom: 10, left: 100, right: 100),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _formCadastro.currentState!.validate();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 167, 92, 180),
+                          padding: const EdgeInsets.fromLTRB(28, 12, 28, 12),
+                        ),
+                        child: const Text(
+                          "Cadastrar",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(
-                bottom: 35,
-                left: 30,
-                right: 30,
-              ),
-              child: TextField(
-                keyboardType: TextInputType.text,
-                style: TextStyle(fontSize: 17),
-                decoration: InputDecoration(
-                  hintText: "Sobrenome",
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: 35,
-                left: 30,
-                right: 30,
-              ),
-              child: TextField(
-                keyboardType: TextInputType.number,
-                inputFormatters: [maskCpf],
-                style: const TextStyle(fontSize: 17),
-                decoration: const InputDecoration(
-                  hintText: "CPF",
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                bottom: 35,
-                left: 30,
-                right: 30,
-              ),
-              child: TextField(
-                keyboardType: TextInputType.emailAddress,
-                style: TextStyle(fontSize: 17),
-                decoration: InputDecoration(
-                  hintText: "E-mail",
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                bottom: 20,
-                left: 30,
-                right: 30,
-              ),
-              child: TextField(
-                obscureText: true,
-                keyboardType: TextInputType.emailAddress,
-                style: TextStyle(fontSize: 17),
-                decoration: InputDecoration(
-                  hintText: "Senha",
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 16,
-                bottom: 10,
-                left: 100,
-                right: 100,
-              ),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 167, 92, 180),
-                  padding: const EdgeInsets.fromLTRB(28, 12, 28, 12),
-                ),
-                child: const Text(
-                  "Cadastrar",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }

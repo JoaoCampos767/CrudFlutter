@@ -41,120 +41,111 @@ class _LoginState extends State<Login> {
     final _form = GlobalKey<FormState>();
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _form,
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 35,
-                        left: 30,
-                        right: 30,
+      body: Form(
+        key: _form,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(bottom: 35, left: 30, right: 30),
+                    child: TextFormField(
+                      controller: _controllerEmail,
+                      keyboardType: TextInputType.emailAddress,
+                      style: const TextStyle(fontSize: 17),
+                      decoration: const InputDecoration(
+                        hintText: "E-mail",
+                        filled: true,
+                        fillColor: Colors.white,
                       ),
-                      child: TextFormField(
-                        controller: _controllerEmail,
-                        keyboardType: TextInputType.emailAddress,
-                        style: const TextStyle(fontSize: 17),
-                        decoration: const InputDecoration(
-                          hintText: "E-mail",
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Campo Email é obrigatório";
-                          }
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Campo Email é obrigatório";
+                        }
 
-                          if (!value.contains("@")) {
-                            return "Email é necessário conter @";
-                          }
-                        },
-                      ),
+                        if (!value.contains("@")) {
+                          return "Email é necessário conter @";
+                        }
+                      },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 20,
-                        left: 30,
-                        right: 30,
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(bottom: 20, left: 30, right: 30),
+                    child: TextFormField(
+                      obscureText: true,
+                      controller: _controllerSenha,
+                      keyboardType: TextInputType.text,
+                      style: const TextStyle(fontSize: 17),
+                      decoration: const InputDecoration(
+                        hintText: "Senha",
+                        filled: true,
+                        fillColor: Colors.white,
                       ),
-                      child: TextFormField(
-                        obscureText: true,
-                        controller: _controllerSenha,
-                        keyboardType: TextInputType.text,
-                        style: const TextStyle(fontSize: 17),
-                        decoration: const InputDecoration(
-                          hintText: "Senha",
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Campo Senha é obrigatório";
-                          }
-                        },
-                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Campo Senha é obrigatório";
+                        }
+                      },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 20,
-                        bottom: 10,
-                        left: 100,
-                        right: 100,
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          final isValid = _form.currentState?.validate();
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                      bottom: 10,
+                      left: 100,
+                      right: 100,
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        final isValid = _form.currentState?.validate();
 
-                          if (isValid!) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Home(),
-                              ),
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 167, 92, 180),
-                          padding: const EdgeInsets.fromLTRB(28, 12, 28, 12),
-                        ),
-                        child: const Text(
-                          "Logar",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: GestureDetector(
-                        onTap: () {
+                        if (isValid!) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Cadastro(),
+                              builder: (context) => const Home(),
                             ),
                           );
-                        },
-                        child: const Text(
-                          "Clique aqui para se cadastrar!",
-                          style: TextStyle(color: Colors.black),
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 167, 92, 180),
+                        padding: const EdgeInsets.fromLTRB(28, 12, 28, 12),
+                      ),
+                      child: const Text(
+                        "Logar",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Cadastro(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "Clique aqui para se cadastrar!",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
