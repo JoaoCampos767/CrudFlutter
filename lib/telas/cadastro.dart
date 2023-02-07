@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:sla/model/usuario.dart';
-import 'package:sla/telas/home.dart';
+
+import '../model/usuario.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -25,7 +25,7 @@ class _CadastroState extends State<Cadastro> {
   final maskCpf = MaskTextInputFormatter(
       mask: "###.###.###-##", filter: {"#": RegExp(r'[0-9]')});
 
-  _validaCampos() {
+  _cadastrar() {
     String nome = _controllerNome.text;
     String sobrenome = _controllerSobreNome.text;
     String cpf = _controllerCPF.text;
@@ -39,10 +39,10 @@ class _CadastroState extends State<Cadastro> {
     usuario.email = email;
     usuario.senha = senha;
 
-    _cadastrarusuario(usuario);
+    _cadastrarUsuario(usuario);
   }
 
-  _cadastrarusuario(Usuario usuario) async {
+  _cadastrarUsuario(Usuario usuario) async {
     await Firebase.initializeApp();
     FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -52,19 +52,12 @@ class _CadastroState extends State<Cadastro> {
         .then((firebaseUser) {
       FirebaseFirestore db = FirebaseFirestore.instance;
 
-      print(firebaseUser.user?.uid);
-
       db
           .collection("usuarios")
           .doc(firebaseUser.user?.uid)
           .set(usuario.toMap());
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Home(),
-        ),
-      );
+      Navigator.pushNamedAndRemoveUntil(context, "/home", (_) => false);
     }).catchError((error) {
       setState(() {
         _mensagemErro =
@@ -220,7 +213,7 @@ class _CadastroState extends State<Cadastro> {
                               _formCadastro.currentState!.validate();
 
                           if (isValid) {
-                            _validaCampos();
+                            _cadastrar();
                           }
                         },
                         style: ElevatedButton.styleFrom(

@@ -11,7 +11,6 @@ class Usuario {
       "sobrenome": sobrenome,
       "cpf": cpf,
       "email": email,
-      "senha": senha
     };
     return map;
   }

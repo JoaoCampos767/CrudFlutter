@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:sla/telas/cadastro.dart';
-import 'package:sla/telas/home.dart';
+
+import '../model/usuario.dart';
+import 'cadastro.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,24 +18,40 @@ class _LoginState extends State<Login> {
 
   String _mensagemErro = "";
 
-  _validarCampos() {
+  _logar() {
     String email = _controllerEmail.text;
     String senha = _controllerSenha.text;
 
-    if (email.isNotEmpty && email.contains("@")) {
-      if (senha.isNotEmpty) {
-        setState(() {
-          _mensagemErro = "";
-        });
-      } else {
-        setState(() {
-          _mensagemErro = "Preencha a senha!";
-        });
-      }
-    } else {
+    Usuario usuario = Usuario();
+    usuario.email = email;
+    usuario.senha = senha;
+
+    _logarUsuario(usuario);
+  }
+
+  _logarUsuario(Usuario usuario) async {
+    await Firebase.initializeApp();
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth
+        .signInWithEmailAndPassword(
+            email: usuario.email, password: usuario.senha)
+        .then((firebaseUser) {
+      Navigator.pushReplacementNamed(context, "/home");
+    }).catchError((error) {
       setState(() {
-        _mensagemErro = "Preencha o E-mail utilizando @";
+        _mensagemErro = "Erro ao tentar logar";
       });
+    });
+  }
+
+  _verificaUsuarioLogado() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    User usuarioLogado = await auth.currentUser!;
+
+    if (usuarioLogado != null) {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacementNamed(context, "/home");
     }
   }
 
@@ -97,22 +116,13 @@ class _LoginState extends State<Login> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                      top: 20,
-                      bottom: 10,
-                      left: 100,
-                      right: 100,
-                    ),
+                        top: 20, bottom: 10, left: 100, right: 100),
                     child: ElevatedButton(
                       onPressed: () {
                         final isValid = _form.currentState?.validate();
 
                         if (isValid!) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Home(),
-                            ),
-                          );
+                          _logar();
                         }
                       },
                       style: ElevatedButton.styleFrom(
